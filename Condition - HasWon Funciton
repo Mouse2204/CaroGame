@@ -1,0 +1,42 @@
+bool hasWon(Stone board[][MAX_SIZE], int size, bool isFirstPlayerTurn) {
+    Stone player = isFirstPlayerTurn ? X : O;
+    Stone opponent = isFirstPlayerTurn ? O : X;
+    int directions[4][2] = { {0, 1}, {1, 0}, {1, 1}, {1, -1} };  // Right, Down, Diagonal down-right, Diagonal down-left
+
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (board[i][j] != player) continue;  // Only start checking from the player's stone
+
+            for (auto& dir : directions) {
+                int count = 1;
+                int x = i + dir[0], y = j + dir[1];
+
+                // Count stones in the positive direction
+                while (x >= 0 && x < size && y >= 0 && y < size && board[x][y] == player) {
+                    count++;
+                    x += dir[0];
+                    y += dir[1];
+                }
+
+                // Count stones in the negative direction (to ensure we handle the entire sequence)
+                int x_neg = i - dir[0], y_neg = j - dir[1];
+                while (x_neg >= 0 && x_neg < size && y_neg >= 0 && y_neg < size && board[x_neg][y_neg] == player) {
+                    count++;
+                    x_neg -= dir[0];
+                    y_neg -= dir[1];
+                }
+
+                // Check if there are exactly 5 stones
+                if (count == 5) {
+                    bool blocked_before = (x_neg >= 0 && x_neg < size && y_neg >= 0 && y_neg < size && board[x_neg][y_neg] == opponent);
+                    bool blocked_after = (x >= 0 && x < size && y >= 0 && y < size && board[x][y] == opponent);
+                    if (!(blocked_before && blocked_after)) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    return false;  // No valid winning sequence found
+}
