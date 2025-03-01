@@ -1,0 +1,8 @@
+void displayBoardSimple(Stone arr[][MAX_SIZE], int size) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            cout << (arr[i][j] == NA ? '.' : (arr[i][j] == X ? 'X' : 'O')) << " ";
+        }
+        cout << endl;
+    }
+}
