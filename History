@@ -1,0 +1,103 @@
+void displayHistory(const string& history, int numOfMoves) {
+    Stone game[MAX_SIZE][MAX_SIZE] = { NA };
+    int currentMove = 0;
+
+    displayBoardSimple(game, MAX_SIZE);
+    cout << "Previous move/Next move/Stop [p/n/s]: ";
+
+    int moveIndex = 0;  // This will track our position in the history string
+
+    char command;
+    while (cin >> command) {
+        if (command == 'n') {
+            if (currentMove < numOfMoves && moveIndex < history.size()) {
+                string move;
+
+                if (moveIndex + 2 < history.size() && isdigit(history[moveIndex]) && isdigit(history[moveIndex + 1]) && islower(history[moveIndex + 2])) {
+                    move = history.substr(moveIndex, 3); // Extract 3-character move like "13n"
+                    moveIndex += 3;
+                }
+                else if (moveIndex + 1 < history.size() && isdigit(history[moveIndex]) && islower(history[moveIndex + 1])) {
+                    move = history.substr(moveIndex, 2); // Extract 2-character move like "8e"
+                    moveIndex += 2;
+                }
+                else {
+                    cout << "Invalid move format in history: " << history.substr(moveIndex, 3) << endl;
+                    return;
+                }
+
+                // Extract row and column
+                string row_str = move.substr(0, move.length() - 1);
+                char col_char = move.back();
+
+                int row = MAX_SIZE - stoi(row_str);
+                int col = col_char - 'a';
+
+                if (row < 0 || row >= MAX_SIZE || col < 0 || col >= MAX_SIZE) {
+                    cout << "Move out of bounds: " << move << endl;
+                    return;
+                }
+
+                if (makeMove(game, MAX_SIZE, move, currentMove % 2 == 0)) {
+                    displayBoardSimple(game, MAX_SIZE);
+                    currentMove++;
+                }
+                else {
+                    cout << "Illegal move: " << move << endl;
+                }
+            }
+            else {
+                cout << "This is the end of the match.\n";
+            }
+        }
+        else if (command == 'p') {
+            if (currentMove > 0) {
+                currentMove--;
+                moveIndex -= (isdigit(history[moveIndex - 3]) && islower(history[moveIndex - 1])) ? 3 : 2;
+
+                if (moveIndex < 0) {
+                    moveIndex = 0;
+                }
+
+                string move;
+
+                if (moveIndex + 2 < history.size() && isdigit(history[moveIndex]) && isdigit(history[moveIndex + 1]) && islower(history[moveIndex + 2])) {
+                    move = history.substr(moveIndex, 3);
+                }
+                else if (moveIndex + 1 < history.size() && isdigit(history[moveIndex]) && islower(history[moveIndex + 1])) {
+                    move = history.substr(moveIndex, 2);
+                }
+                else {
+                    cout << "Invalid move format in history: " << history.substr(moveIndex, 3) << endl;
+                    return;
+                }
+
+                string row_str = move.substr(0, move.length() - 1);
+                char col_char = move.back();
+
+                int row = MAX_SIZE - stoi(row_str);
+                int col = col_char - 'a';
+
+                if (row < 0 || row >= MAX_SIZE || col < 0 || col >= MAX_SIZE) {
+                    cout << "Move out of bounds: " << move << endl;
+                    return;
+                }
+
+                game[row][col] = NA;
+
+                displayBoardSimple(game, MAX_SIZE);
+            }
+            else {
+                cout << "This is the start of the match.\n";
+            }
+        }
+        else if (command == 's') {
+            break;
+        }
+        else {
+            cout << "Illegal input, please try again: ";
+        }
+
+        if (command != 's') cout << "Previous move/Next move/Stop [p/n/s]: ";
+    }
+}
