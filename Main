@@ -1,0 +1,33 @@
+int main()
+{
+    cout << "Welcome to Gomoku!" << endl;
+    cout << "1. Play game" << endl;
+    cout << "2. History" << endl;
+    cout << "3. Exit" << endl;
+    cout << "Please select mode [1/2/3]: ";
+    int mode;
+    while (cin >> mode) {
+        if (mode == 1) {
+            startGame();
+            return 0;
+        }
+        else if (mode == 2) {
+            int numOfMoves;
+            cout << "Please enter number of moves: ";
+            cin >> numOfMoves;
+            string history;
+            cout << "Please enter history: ";
+            cin >> history;
+            displayHistory(history, numOfMoves);
+            return 0;
+        }
+        else if (mode == 3) {
+            return 0;
+        }
+        else {
+            cout << "Invalid mode, please try again: ";
+        }
+    }
+
+    return 0;
+}
