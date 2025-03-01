@@ -1,0 +1,13 @@
+bool makeMove(Stone board[][MAX_SIZE], int size, const string& playerMove, bool isFirstPlayerTurn) {
+    if (playerMove.length() < 2 || playerMove.length() > 3) return false;
+
+    int row = size - stoi(playerMove.substr(0, playerMove.length() - 1));
+    char colChar = playerMove.back();
+    int col = colChar - 'a';
+
+    if (row < 0 || row >= size || col < 0 || col >= size) return false;
+    if (board[row][col] != NA) return false;
+
+    board[row][col] = isFirstPlayerTurn ? X : O;
+    return true;
+}
