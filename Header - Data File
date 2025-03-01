@@ -1,0 +1,28 @@
+#include <iostream>
+#include <cstdlib>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+#define MAX_SIZE 15
+
+const char HORZ = 196;
+const char VERT = 179;
+const char TL = 218;
+const char TM = 194;
+const char TR = 191;
+const char BL = 192;
+const char BM = 193;
+const char BR = 217;
+const int numW = 3;
+const int charW = 1;
+const int numPerLine = 15;
+const char VERT_START = 195;
+const char VERT_END = 180;
+const char VERT_MID = 197;
+const string inputCommand = "Previous move/Next move/Stop [p/n/s]: ";
+const string endOfHistory = "This is the end of the match.\nPrevious move/Next move/Stop [p/n/s]: ";
+const string startOfGame = "This is the start of the match.\nPrevious move/Next move/Stop [p/n/s]: ";
+const string invalidInput = "Illegal input, please try again: ";
+
+enum Stone { NA, X, O };
